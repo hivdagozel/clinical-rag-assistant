@@ -1,0 +1,46 @@
+categories:
+  analgesic:
+    enabled: true
+    priority: 1
+    quota: 30
+    atc_prefixes: [N02, M01A]
+    active_ingredients:
+      [parasetamol, ibuprofen, naproksen, diklofenak, deksketoprofen,
+       asetilsalisilik asit, metamizol]
+    exclude_terms: [veteriner]
+  diabetes:
+    enabled: true
+    priority: 2
+    quota: 25
+    atc_prefixes: [A10]
+    active_ingredients:
+      [metformin, gliklazid, glimepirid, sitagliptin, vildagliptin,
+       linagliptin, empagliflozin, dapagliflozin, pioglitazon, akarboz,
+       insülin glarjin, insülin aspart, insülin lispro, semaglutid,
+       dulaglutid, liraglutid]
+    exclude_terms: [veteriner]
+  hypertension:
+    enabled: true
+    priority: 3
+    quota: 25
+    atc_prefixes: [C02, C03, C07, C08, C09]
+    active_ingredients:
+      [amlodipin, ramipril, perindopril, lisinopril, enalapril, losartan,
+       valsartan, candesartan, irbesartan, telmisartan, bisoprolol,
+       metoprolol, nebivolol, karvedilol, hidroklorotiyazid, indapamid,
+       spironolakton, furosemid]
+    exclude_terms: [veteriner]
+  common:
+    enabled: true
+    priority: 4
+    quota: 20
+    groups:
+      [acid_suppression, allergy, respiratory, thyroid, lipid_lowering,
+       antibiotics, anticoagulant_antiplatelet]
+    active_ingredients:
+      [omeprazol, pantoprazol, lansoprazol, esomeprazol, amoksisilin,
+       amoksisilin klavulanik asit, azitromisin, klaritromisin, sefuroksim,
+       setirizin, loratadin, desloratadin, feksofenadin, salbutamol,
+       budesonid, montelukast, levotiroksin, atorvastatin, rosuvastatin,
+       klopidogrel, apiksaban, rivaroksaban]
+    exclude_terms: [veteriner]

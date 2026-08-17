@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏥 Akıllı Medikal RAG Asistanı</title>
+    <!-- Google Fonts - Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons for modern visuals -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sol/Üst Header & Durum Paneli -->
+        <header class="app-header">
+            <div class="header-logo">
+                <i class="fa-solid fa-house-medical pulse-icon"></i>
+                <div class="header-text">
+                    <h1>Medikal RAG Asistanı</h1>
+                    <p>Yapay Zeka Destekli İlaç & Prospektüs Danışmanı</p>
+                </div>
+            </div>
+            
+            <!-- Canlı Sistem Durum Göstergesi -->
+            <div class="system-status">
+                <h3>Sistem Durumu</h3>
+                <div class="status-indicators">
+                    <div class="status-item" id="status-ai">
+                        <span class="status-dot offline" id="ai-dot"></span>
+                        <span class="status-label" id="ai-label">Akıllı Yanıt Sistemi (Kontrol ediliyor...)</span>
+                    </div>
+                    <div class="status-item" id="status-db">
+                        <span class="status-dot offline" id="db-dot"></span>
+                        <span class="status-label" id="db-label">İlaç Bilgi Arşivi (Yükleniyor...)</span>
+                    </div>
+                    <div class="status-item" id="status-api">
+                        <span class="status-dot offline" id="api-dot"></span>
+                        <span class="status-label" id="api-label">İlaç Bilgi Servisi (Kontrol ediliyor...)</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Ana Sohbet & Panel Alanı -->
+        <main class="main-content">
+            <!-- Sohbet Bölümü -->
+            <section class="chat-section">
+                <div class="chat-messages" id="chat-messages">
+                    <!-- Hoş Geldiniz Kartı -->
+                    <div class="welcome-card" id="welcome-card">
+                        <div class="welcome-icon">
+                            <i class="fa-solid fa-user-doctor"></i>
+                        </div>
+                        <h2>Merhaba! Ben Akıllı Tıbbi Asistanınız.</h2>
+                        <p>Yüklediğiniz prospektüs PDF'leri ve ilaç veri tabanlarını kullanarak ilaçlar, dozajlar, yan etkiler ve kullanım talimatları hakkında sorularınızı yanıtlayabilirim.</p>
+                        
+                        <div class="welcome-suggestions">
+                            <h3>Hızlı Soru Önerileri:</h3>
+                            <div class="suggestions-grid">
+                                <button class="suggestion-btn" onclick="sendSuggestion('Ateşim var ve başım çok ağrıyor, hangi ilacı almalıyım?')">
+                                    <i class="fa-solid fa-thermometer"></i> Ateş ve Baş Ağrısı İçin İlaç
+                                </button>
+                                <button class="suggestion-btn" onclick="sendSuggestion('Parasetamol tabletinin dozajı nedir ve günde en fazla kaç mg alınabilir?')">
+                                    <i class="fa-solid fa-pills"></i> Parasetamol Dozajı ve Limitleri
+                                </button>
+                                <button class="suggestion-btn" onclick="sendSuggestion('Karaciğer yetmezliği olan biri parasetamol kullanırken nelere dikkat etmelidir?')">
+                                    <i class="fa-solid fa-triangle-exclamation"></i> Karaciğer Uyarısı & Riskler
+                                </button>
+                                <button class="suggestion-btn" onclick="sendSuggestion('Örnek prospektüse göre ilacın yaygın yan etkileri nelerdir?')">
+                                    <i class="fa-solid fa-clipboard-list"></i> İlacın Yan Etkileri
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Yazma Alanı -->
+                <div class="chat-input-area">
+                    <form id="chat-form" class="chat-form">
+                        <textarea id="user-input" rows="1" maxlength="4000" placeholder="Tıbbi sorunuzu veya ilaç adını buraya yazın..." required></textarea>
+                        <button type="submit" class="send-btn" id="send-button">
+                            <span>Gönder</span> <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Sağ Kaynak ve Detay Paneli -->
+            <aside class="details-panel" id="details-panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-folder-open"></i> Bilgi Kaynakları</h2>
+                    <p>Bu soruya yanıt vermek için taranan belgeler</p>
+                </div>
+
+                <div class="panel-body">
+                    <!-- Kaynaklar Listesi -->
+                    <div class="sources-container">
+                        <h3>Kullanılan Belgeler</h3>
+                        <div id="sources-list" class="sources-list">
+                            <div class="empty-sources">
+                                <i class="fa-solid fa-file-medical"></i>
+                                <p>Soru sorduğunuzda, kullanılan prospektüsler burada listelenecektir.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- İstatistikler -->
+                    <div class="stats-container">
+                        <h3>Arama İstatistikleri</h3>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <span class="stat-num" id="stat-pdf">0</span>
+                                <span class="stat-name">Taranan PDF Sayfası</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-num" id="stat-api">0</span>
+                                <span class="stat-name">İlaç API Eşleşmesi</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Yasal Uyarı Bildirimi -->
+        <footer class="app-footer">
+            <p><i class="fa-solid fa-circle-info"></i> <strong>Yasal Uyarı:</strong> Bu yapay zeka asistanı yalnızca bilgilendirme amaçlı çalışmaktadır. Tıbbi teşhisleriniz, reçeteleriniz ve tedavi süreçleriniz için mutlaka hekiminize veya eczacınıza danışınız.</p>
+        </footer>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

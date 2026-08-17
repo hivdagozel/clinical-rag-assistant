@@ -1,0 +1,34 @@
+# Sanal ortam klasörü
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# API anahtarları - ASLA commit'leme!
+.env
+data/vectorstore/
+data/vectorstore.backup/
+data/quarantine/
+data/rejected_pdfs/
+__pycache__/
+.pytest_cache/
+*.log
+data/metadata/collector_*_checkpoint.json
+data/metadata/collector_*_report.json
+data/raw_pdfs/kt/
+data/accepted_pdfs/
+diag*_out.txt
+e2e_results.txt
+test_results.txt
+wrong_files.txt
+scratch_diag*.py
+
+# ChromaDB veri dosyaları
+data/vectorstore/
+
+# IDE dosyaları
+.vscode/
+.idea/
+
+# Test çıktıları
+.pytest_cache/
